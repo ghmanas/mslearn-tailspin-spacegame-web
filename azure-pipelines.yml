@@ -3,23 +3,25 @@ trigger:
     include:
       - main
 pool:
-  name: Azure Pipelines
-stages:
+  name: Azure Pipeline
+
+
+
   jobs:
   - job:Restore
-    steps:
-    - task: DotNetCoreCLI@2
-      displayName: Restore
-      inputs:
-        command: restore
-        projects: '**/*.csproj'
-        feedsToUse: config
-        nugetConfigPath: NuGet.config    # Relative to root of the repository
-  - job:Build
-      steps:
+  steps:
       - task: DotNetCoreCLI@2
-        displayName: Build
+        displayName: Restore
         inputs:
-          command: build
+          command: restore
+          projects: '**/*.csproj'
+          feedsToUse: config
+          nugetConfigPath: NuGet.config    # Relative to root of the repository
+          
+      - job:Build
+steps:
+      - task: DotNetCoreCLI@2
+        inputs:
+          command: 'build'
           projects: '**/*.csproj'
           arguments: '--configuration $(buildConfiguration)' # Update this to match your need  
